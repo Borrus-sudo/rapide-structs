@@ -1,4 +1,3 @@
-function main() {
- console.log("Hello World");
+export default function () {
+ return "HelloWorld";
 }
-main();
