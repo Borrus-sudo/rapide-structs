@@ -1,0 +1,13 @@
+{
+    "name": "rapide-structs",
+    "version": "1.0.0",
+    "main": "index.js",
+    "license": "MIT",
+    "scripts": {
+        "start": "tsc&&node dist/index.js",
+        "watch": "tsc -w"
+    },
+    "devDependencies": {
+        "typescript": "^4.3.5"
+    }
+}
