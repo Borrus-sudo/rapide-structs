@@ -1,10 +1,14 @@
 {
   "compilerOptions": {
+    "baseUrl": "E:/JDev/rapide-structs",
     "module": "commonjs",
     "target": "ES5",
     "outDir": "dist",
     "rootDir": "src",
-    "experimentalDecorators": true
+    "experimentalDecorators": true,
+    "paths": {
+      "~/*": ["./src/*"]
+    }
   },
-  "exclude": ["node_modules", "**/*.spec.ts", "**/*.test.ts"]
+  "exclude": ["node_modules", "**/*.spec.ts"]
 }

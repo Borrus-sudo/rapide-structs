@@ -6,6 +6,7 @@
     "scripts": {
         "start": "tsc&&node dist/index.js",
         "watch": "tsc -w",
+        "compile": "tsc",
         "test": "jest --watchAll --verbose --coverage"
     },
     "devDependencies": {
