@@ -1,4 +1,4 @@
-import compile from "~/index";
+import compile from "../src/index";
 
 describe("it should return a string", () => {
   it("should throw ModuleNotFoundError ", () => {

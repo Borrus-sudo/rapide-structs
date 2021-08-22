@@ -1,0 +1,13 @@
+{
+    "name": "@rapide-structs/compiler",
+    "private": "true",
+    "version": "1.0.0",
+    "license": "MIT",
+    "scripts": {
+        "start": "tsc&&node dist/index.js",
+        "watch": "tsc -w",
+        "compile": "tsc",
+        "test": "jest --watchAll --verbose --coverage",
+        "actionTest": "jest --verbose --coverage"
+    }
+}

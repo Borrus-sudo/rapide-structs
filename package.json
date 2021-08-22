@@ -1,15 +1,14 @@
 {
     "name": "rapide-structs",
     "version": "1.0.0",
-    "main": "index.js",
     "license": "MIT",
+    "private": "true",
     "scripts": {
-        "start": "tsc&&node dist/index.js",
-        "watch": "tsc -w",
-        "compile": "tsc",
-        "test": "jest --watchAll --verbose --coverage",
-        "actionTest": "jest --verbose --coverage"
+        "test-compiler": "yarn workspace @rapide-structs/compiler actionTest"
     },
+    "workspaces": [
+        "packages/*"
+    ],
     "devDependencies": {
         "@types/jest": "^27.0.1",
         "jest": "^27.0.6",
