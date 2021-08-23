@@ -1,7 +1,6 @@
-export enum Errors {
-  ModuleNotFound = "ModuleNotFound: Error module not found",
-}
-export default function (error: Errors, dynamicPart?: string) {
+import type { throwError } from "../types";
+import { Errors } from "../types";
+const throwsError: throwError = function (error: Errors, dynamicPart?: string) {
   if (dynamicPart) {
     switch (error) {
       case Errors.ModuleNotFound:
@@ -22,4 +21,6 @@ export default function (error: Errors, dynamicPart?: string) {
     throw new Error(`${error}`);
   }
   console.log(error);
-}
+};
+
+export default throwsError;

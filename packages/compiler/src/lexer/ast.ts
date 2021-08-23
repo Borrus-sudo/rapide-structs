@@ -1,3 +1,5 @@
 export class AST {
-  constructor(private AST = {}) {}
+  private ast = {};
+  constructor() {}
+  constructNode(node:Node) {}
 }
