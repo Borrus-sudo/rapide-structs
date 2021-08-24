@@ -1,0 +1,5 @@
+/app
+      /crap
+             /crapmore
+      /play
+/lapp      

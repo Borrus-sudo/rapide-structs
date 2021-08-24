@@ -17,5 +17,6 @@ export interface AST {
 }
 export const enum Errors {
   ModuleNotFound = "ModuleNotFound: Error module not found",
+  IndentError="IndentError: Indentation error."
 }
 export type throwError = (error: Errors, dynamicPart?: string) => void;

@@ -1,5 +1,13 @@
-export class AST {
-  private ast = {};
+import type { AST, Node } from "../types";
+export default class implements AST {
+  ast: Node[] = [];
   constructor() {}
-  constructNode(node:Node) {}
+  traverse(callback: Function) {
+    console.log("Traverse func");
+  }
+  constructNode(node: Node) {
+    console.log("constructNode func");
+    
+    return;
+  }
 }
