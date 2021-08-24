@@ -14,7 +14,6 @@ export default function (codePath: PathLike): string[] {
     return indices;
   }
   const code = readFileSync(codePath, { encoding: "utf-8" }).trim().split("\n");
-  const indentSpaceIncrement: number = 2;
   const spacesTrail: number[] = [];
   let nextSpaceNumber: number = 0;
   let lineNumber: number = 1;
@@ -25,18 +24,17 @@ export default function (codePath: PathLike): string[] {
     const value: string = line.trim();
     if (indentSpaceNumber === nextSpaceNumber) {
       if (!value.startsWith("/")) {
-        routeStreak +="/"+ value ;
+        routeStreak += "/" + value;
       } else {
         routeStreak += value;
       }
-      routeStrings.push(routeStreak);
+      routeStrings.push(routeStreak.replace("/*", "/").replace(/\/\//g, "/"));
     } else if (spacesTrail.includes(indentSpaceNumber)) {
       //streak broken;
-      routeStrings.push(routeStreak);
       const spacesIndex = spacesTrail.indexOf(indentSpaceNumber);
       const indices: number[] = getSlashIndices(routeStreak);
       routeStreak = routeStreak.slice(0, indices[spacesIndex]) + value;
-      routeStrings.push(routeStreak);
+      routeStrings.push(routeStreak.replace("/*", "/").replace(/\/\//g, "/"));
       spacesTrail.splice(spacesIndex);
       nextSpaceNumber = indentSpaceNumber;
     } else {
@@ -48,7 +46,7 @@ export default function (codePath: PathLike): string[] {
     //End of for body
     lineNumber++;
     spacesTrail.push(nextSpaceNumber);
-    nextSpaceNumber += indentSpaceIncrement + value.length;
+    nextSpaceNumber += value.length - 1;
   }
   return routeStrings;
 }
