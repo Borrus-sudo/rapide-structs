@@ -7,9 +7,9 @@ const throwsError: throwError = function (error: Errors, dynamicPart?: string) {
         throw new Error(
           `${Errors.ModuleNotFound}. Please check the input path ${dynamicPart} again`
         );
-      case Errors.IndentError:
+      case Errors.IndentationError:
         throw new Error(
-          `${Errors.IndentError}. Please check the indentation of line ${dynamicPart} again`
+          `${Errors.IndentationError}. Please check the indentation of line ${dynamicPart} again`
         );
       default:
         console.log("Error not found");

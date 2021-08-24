@@ -39,7 +39,7 @@ export default function (codePath: PathLike): string[] {
       nextSpaceNumber = indentSpaceNumber;
     } else {
       throwError(
-        Errors.IndentError,
+        Errors.IndentationError,
         `${lineNumber} Difference of ${indentSpaceNumber - nextSpaceNumber}`
       );
     }
@@ -48,5 +48,8 @@ export default function (codePath: PathLike): string[] {
     spacesTrail.push(nextSpaceNumber);
     nextSpaceNumber += value.length - 1;
   }
+  const ast = new AST();
+  ast.compileStringRoutes(routeStrings);
+  console.log(ast.ast);
   return routeStrings;
 }

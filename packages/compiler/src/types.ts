@@ -12,11 +12,12 @@ export type Node =
     };
 export interface AST {
   ast: Node[];
-  constructNode: (node: Node) => void;
-  traverse: (callback: Function) => void;
+  constructNode: (node: Node, parent?: string) => void;
+  traverse: (visitor: Function) => void;
+  compileStringRoutes: (rawRoutes: string[]) => void;
 }
 export const enum Errors {
   ModuleNotFound = "ModuleNotFound: Error module not found",
-  IndentError="IndentError: Indentation error."
+  IndentationError = "IndentError: Indentation error.",
 }
 export type throwError = (error: Errors, dynamicPart?: string) => void;
