@@ -1,5 +1,5 @@
-import type { throwError } from "../types";
-import { Errors } from "../types";
+import type { throwError } from "./types";
+import { Errors } from "./types";
 const throwsError: throwError = function (error: Errors, dynamicPart?: string) {
   if (dynamicPart) {
     switch (error) {

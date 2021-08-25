@@ -1,9 +1,9 @@
-import throwError from "../errors/index";
-import { Errors,Node } from "../types";
-import AST from "./ast";
+import throwError from "../error";
+import { Errors, AST } from "../types";
+import ASTree from "./ast";
 import { existsSync, PathLike, readFileSync } from "fs";
 
-export default function (codePath: PathLike): Node[] {
+export default function (codePath: PathLike): AST {
   if (!existsSync(codePath)) {
     throwError(Errors.ModuleNotFound, codePath as string);
     return;
@@ -53,7 +53,7 @@ export default function (codePath: PathLike): Node[] {
         squareBracketIndex === -1 ? value.length : squareBracketIndex
       ).length - 1;
   }
-  const ast = new AST();
+  const ast: AST = new ASTree();
   ast.compileStringRoutes(routeStrings);
-  return ast.ast;
+  return ast;
 }
