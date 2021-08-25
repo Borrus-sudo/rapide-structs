@@ -2,7 +2,7 @@ import throwError from "../error";
 import { Errors, AST } from "../types";
 import ASTree from "./ast";
 
-export default function (code:string): AST {
+export default function (code: string): AST {
   function getSlashIndices(str: string): number[] {
     const indices: number[] = [];
     [...str].forEach((elem, index) => (elem === "/" ? indices.push(index) : 0));
@@ -10,14 +10,14 @@ export default function (code:string): AST {
   }
   const lines: string[] = code.split("\n");
   const spacesTrail: number[] = [];
-  let nextSpaceNumber: number = 0;
+  let predictedNextSpace: number = 0;
   let lineNumber: number = 1;
   const routeStrings: string[] = [];
   let routeStreak: string = "";
   for (let line of lines) {
     const indentSpaceNumber: number = line.trimRight().search(/\S/);
     const value: string = line.trim();
-    if (indentSpaceNumber === nextSpaceNumber) {
+    if (indentSpaceNumber === predictedNextSpace) {
       if (!value.startsWith("/")) {
         routeStreak += "/" + value;
       } else {
@@ -32,17 +32,17 @@ export default function (code:string): AST {
       //routeStreak.replace("/*", "/").replace(/\/\//g, "/")
       routeStrings.push(routeStreak);
       spacesTrail.splice(spacesIndex);
-      nextSpaceNumber = indentSpaceNumber;
+      predictedNextSpace = indentSpaceNumber;
     } else {
       throwError(
         Errors.IndentationError,
-        `${lineNumber} Difference of ${indentSpaceNumber - nextSpaceNumber}`
+        `${lineNumber} Difference of ${indentSpaceNumber - predictedNextSpace}`
       );
     }
     lineNumber++;
-    spacesTrail.push(nextSpaceNumber);
+    spacesTrail.push(predictedNextSpace);
     const squareBracketIndex = value.indexOf("[");
-    nextSpaceNumber +=
+    predictedNextSpace +=
       value.slice(
         0,
         squareBracketIndex === -1 ? value.length : squareBracketIndex
