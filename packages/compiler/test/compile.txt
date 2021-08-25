@@ -1,5 +1,11 @@
-/app
-      /crap
-             /crapmore
-      /play
-/lapp      
+/*
+ /api
+    /v1[ignore] 
+      /cards[alias:playToo,mark:[graph,mark],ignore]
+      /fetchInfo 
+      /countDown 
+    /v2[ignore]
+      /lodash 
+      /vuejs
+      /reactjs
+      /play       

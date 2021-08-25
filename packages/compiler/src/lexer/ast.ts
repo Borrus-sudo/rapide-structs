@@ -52,7 +52,6 @@ export default class implements AST {
   compileStringRoutes(rawRoutes: string[]) {
     for (let route of rawRoutes) {
       const fragments = route.split("/").slice(1);
-      console.log({ fragments });
       const mother = fragments[0];
       this.constructNode({
         type: "Route",

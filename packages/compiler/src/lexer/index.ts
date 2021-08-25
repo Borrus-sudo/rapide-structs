@@ -1,9 +1,9 @@
 import throwError from "../errors/index";
-import { Errors, Node } from "../types";
+import { Errors,Node } from "../types";
 import AST from "./ast";
 import { existsSync, PathLike, readFileSync } from "fs";
 
-export default function (codePath: PathLike): string[] {
+export default function (codePath: PathLike): Node[] {
   if (!existsSync(codePath)) {
     throwError(Errors.ModuleNotFound, codePath as string);
     return;
@@ -44,13 +44,16 @@ export default function (codePath: PathLike): string[] {
         `${lineNumber} Difference of ${indentSpaceNumber - nextSpaceNumber}`
       );
     }
-    //End of for body
     lineNumber++;
     spacesTrail.push(nextSpaceNumber);
-    nextSpaceNumber += value.length - 1;
+    const squareBracketIndex = value.indexOf("[");
+    nextSpaceNumber +=
+      value.slice(
+        0,
+        squareBracketIndex === -1 ? value.length : squareBracketIndex
+      ).length - 1;
   }
   const ast = new AST();
   ast.compileStringRoutes(routeStrings);
-  console.log(JSON.stringify(ast.ast, null, 2));
-  return routeStrings;
+  return ast.ast;
 }

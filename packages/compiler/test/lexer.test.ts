@@ -10,9 +10,9 @@ describe("it should return a string", () => {
         `ModuleNotFound: Error module not found. Please check the input path ./crap again`
       );
     }
-    const routeStrings: string[] = Lexer(
+    const ast = Lexer(
       "E:/JDev/rapide-structs/packages/compiler/test/compile.txt"
     );
-    console.log({ routeStrings });
+    console.log(JSON.stringify(ast, null, 2));
   });
 });

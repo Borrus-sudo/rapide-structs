@@ -16,7 +16,6 @@ const throwsError: throwError = function (error: Errors, dynamicPart?: string) {
         break;
     }
   } else {
-    console.log(`${error}`);
     throw new Error(`${error}`);
   }
   console.log(error);
