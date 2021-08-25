@@ -1,5 +1,4 @@
-import type { throwError } from "./types";
-import { Errors } from "./types";
+import { throwError, Errors } from "./types";
 const throwsError: throwError = function (error: Errors, dynamicPart?: string) {
   if (dynamicPart) {
     switch (error) {
@@ -10,6 +9,10 @@ const throwsError: throwError = function (error: Errors, dynamicPart?: string) {
       case Errors.IndentationError:
         throw new Error(
           `${Errors.IndentationError}. Please check the indentation of line ${dynamicPart} again`
+        );
+      case Errors.UnidentifiedToken:
+        throw new Error(
+          `${Errors.UnidentifiedToken} The token ${dynamicPart} is invalid. Please check again.`
         );
       default:
         console.log("Error not found");

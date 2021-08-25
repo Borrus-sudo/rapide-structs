@@ -3,16 +3,16 @@ import { Errors, AST } from "../types";
 import ASTree from "./ast";
 
 export default function (code: string): AST {
-  function getSlashIndices(str: string): number[] {
+  const lines: string[] = code.split("\n");
+  const spacesTrail: number[] = [];
+  const routeStrings: string[] = [];
+  const getSlashIndices = (str: string): number[] => {
     const indices: number[] = [];
     [...str].forEach((elem, index) => (elem === "/" ? indices.push(index) : 0));
     return indices;
-  }
-  const lines: string[] = code.split("\n");
-  const spacesTrail: number[] = [];
+  };
   let predictedNextSpace: number = 0;
   let lineNumber: number = 1;
-  const routeStrings: string[] = [];
   let routeStreak: string = "";
   for (let line of lines) {
     const indentSpaceNumber: number = line.trimRight().search(/\S/);

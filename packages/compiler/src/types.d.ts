@@ -18,7 +18,7 @@ export type Node =
 export type Lexeme =
   | {
       type: "Punctuator";
-      value: "[" | "]" | ",";
+      value: "[" | "]" | "," | ":";
     }
   | {
       type: "Literal";
@@ -36,6 +36,7 @@ export interface AST {
 }
 export const enum Errors {
   ModuleNotFound = "ModuleNotFound: Error module not found",
-  IndentationError = "IndentError: Indentation error.",
+  IndentationError = "IndentError: Indentation error",
+  UnidentifiedToken = "UnindentifiedToken:",
 }
 export type throwError = (error: Errors, dynamicPart?: string) => void;
