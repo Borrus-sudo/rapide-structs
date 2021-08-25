@@ -1,6 +1,6 @@
 import compile from "../src/index";
 import Lexer from "../src/lexer/index";
-
+import { join } from "path";
 describe("it should return a string", () => {
   it("should throw ModuleNotFoundError ", () => {
     try {
@@ -11,7 +11,7 @@ describe("it should return a string", () => {
       );
     }
     const ast = Lexer(
-      "E:/JDev/rapide-structs/packages/compiler/test/compile.txt"
+     join(process.cwd(),"./packages/compiler/test/compile.txt")
     );
     console.log(JSON.stringify(ast, null, 2));
   });
