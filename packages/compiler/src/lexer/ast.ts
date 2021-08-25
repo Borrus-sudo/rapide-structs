@@ -15,15 +15,16 @@ export default class implements AST {
         if (node.type === "Route" && node.children) {
           this.traverse(visitor, node.children);
         }
-      }
-      else {
+      } else {
         break loop;
       }
     }
   }
-  constructNode(node: Node, parent?: string) {
+  constructNode(child: Node, parent?: string) {
     if (!parent) {
-      this.ast.push(node);
+      if (this.ast.filter((node) => node.value === child.value).length === 0) {
+        this.ast.push(child);
+      }
     } else {
       this.traverse((traversingNode: Node) => {
         if (
@@ -31,10 +32,16 @@ export default class implements AST {
           traversingNode.type === "Route"
         ) {
           if (traversingNode.isFlat) {
-            traversingNode.isFlat = true;
-            traversingNode.children = [node];
+            traversingNode.isFlat = false;
+            traversingNode.children = [child];
           } else {
-            traversingNode.children.push(node);
+            if (
+              traversingNode.children.filter(
+                (node) => child.value === node.value
+              ).length === 0
+            ) {
+              traversingNode.children.push(child);
+            }
           }
           return false;
         }
@@ -44,19 +51,20 @@ export default class implements AST {
   }
   compileStringRoutes(rawRoutes: string[]) {
     for (let route of rawRoutes) {
-      const fragments = route.split("/");
+      const fragments = route.split("/").slice(1);
+      console.log({ fragments });
       const mother = fragments[0];
       this.constructNode({
         type: "Route",
-        value: mother + "/",
+        value: "/" + mother,
         isFlat: true,
       });
       for (let i = 1; i < fragments.length; i++) {
         const fragment = fragments[i];
         const mother = fragments[i - 1];
         this.constructNode(
-          { type: "Route", value: fragment + "/", isFlat: true },
-          mother
+          { type: "Route", value: "/" + fragment, isFlat: true },
+          "/" + mother
         );
       }
     }

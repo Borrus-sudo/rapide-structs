@@ -28,13 +28,14 @@ export default function (codePath: PathLike): string[] {
       } else {
         routeStreak += value;
       }
-      routeStrings.push(routeStreak.replace("/*", "/").replace(/\/\//g, "/"));
+      routeStrings.push(routeStreak);
     } else if (spacesTrail.includes(indentSpaceNumber)) {
       //streak broken;
       const spacesIndex = spacesTrail.indexOf(indentSpaceNumber);
       const indices: number[] = getSlashIndices(routeStreak);
       routeStreak = routeStreak.slice(0, indices[spacesIndex]) + value;
-      routeStrings.push(routeStreak.replace("/*", "/").replace(/\/\//g, "/"));
+      //routeStreak.replace("/*", "/").replace(/\/\//g, "/")
+      routeStrings.push(routeStreak);
       spacesTrail.splice(spacesIndex);
       nextSpaceNumber = indentSpaceNumber;
     } else {
@@ -50,6 +51,6 @@ export default function (codePath: PathLike): string[] {
   }
   const ast = new AST();
   ast.compileStringRoutes(routeStrings);
-  console.log(ast.ast);
+  console.log(JSON.stringify(ast.ast, null, 2));
   return routeStrings;
 }
