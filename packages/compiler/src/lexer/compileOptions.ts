@@ -21,7 +21,7 @@ const isKeyword = (lexeme: string): Keywords | false => {
 export default function (optionsArray: string) {
   let index = 0;
   const lexemes: Lexeme[] = [];
-  while (index < optionsArray.length) {
+  loop: while (index < optionsArray.length) {
     const lexeme = optionsArray[index];
     switch (lexeme) {
       case "[":
@@ -29,28 +29,32 @@ export default function (optionsArray: string) {
           type: "Punctuator",
           value: "[",
         });
+        index++;
         break;
       case "]":
         lexemes.push({
           type: "Punctuator",
           value: "]",
         });
+        index++;
         break;
       case ",":
         lexemes.push({
           type: "Punctuator",
           value: ",",
         });
+        index++;
         break;
       case ":":
         lexemes.push({
           type: "Punctuator",
           value: ":",
         });
+        index++;
         break;
       default:
         if (isLetter.test(lexeme)) {
-          let word: string;
+          let word: string = "";
           word += lexeme;
           while (isLetter.test(optionsArray[++index])) {
             word += optionsArray[index];
@@ -68,11 +72,12 @@ export default function (optionsArray: string) {
             });
           }
         } else if (isWhiteSpace.test(lexeme)) {
-          continue;
+          index++;
         } else {
           throwError(Errors.UnidentifiedToken, lexeme);
+          break loop;
         }
-        break;
     }
   }
+  console.log(JSON.stringify(lexemes, null, 2));
 }
