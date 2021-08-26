@@ -1,7 +1,7 @@
-import Lexer from "./lexer/tokeniser";
+import { existsSync, PathLike, readFileSync } from "fs";
 import Codegen from "./codegen";
 import throwError from "./error";
-import { PathLike, existsSync, readFileSync } from "fs";
+import Lexer from "./lexer/tokeniser";
 import { AST, Errors } from "./types";
 
 export default function (codePath: PathLike) {

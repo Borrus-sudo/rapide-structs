@@ -1,5 +1,5 @@
 import throwError from "../error";
-import { Errors, AST } from "../types";
+import { AST, Errors } from "../types";
 import ASTree from "./ast";
 
 export default function (code: string): AST {

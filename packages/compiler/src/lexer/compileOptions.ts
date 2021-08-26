@@ -1,7 +1,6 @@
-import { Keywords, Errors, Lexeme } from "../types";
 import throwError from "../error";
+import { Errors, Keywords, Lexeme } from "../types";
 
-//Global utils
 const isLetter: RegExp = /[a-zA-Z]/;
 const isWhiteSpace: RegExp = /\s/;
 const isKeyword = (lexeme: string): Keywords | false => {
@@ -16,12 +15,10 @@ const isKeyword = (lexeme: string): Keywords | false => {
       return false;
   }
 };
-
-//The body 0f the module
-export default function (optionsArray: string) {
+const tokeniser = (optionsArray: string): Lexeme[] => {
   let index = 0;
   const lexemes: Lexeme[] = [];
-  loop: while (index < optionsArray.length) {
+  while (index < optionsArray.length) {
     const lexeme = optionsArray[index];
     switch (lexeme) {
       case "[":
@@ -75,9 +72,15 @@ export default function (optionsArray: string) {
           index++;
         } else {
           throwError(Errors.UnidentifiedToken, lexeme);
-          break loop;
         }
     }
   }
+  return lexemes;
+};
+const generateAST = (tokens: Lexeme[]) => {};
+//The body 0f the module
+export default function (optionsArray: string) {
+  const lexemes: Lexeme[] = tokeniser(optionsArray);
+  generateAST(lexemes);
   console.log(JSON.stringify(lexemes, null, 2));
 }
