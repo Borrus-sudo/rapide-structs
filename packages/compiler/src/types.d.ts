@@ -37,6 +37,13 @@ export interface AST {
 export const enum Errors {
   ModuleNotFound = "ModuleNotFound: Error module not found",
   IndentationError = "IndentError: Indentation error",
-  UnidentifiedToken = "UnindentifiedToken:",
+  UnidentifiedToken = "SyntaxError:",
+  IllegalToken = "SyntaxError: Illgal token",
+  MissingToken = "SyntaxError: Missing token",
+  SyntaxError = "SyntaxError:",
 }
-export type throwError = (error: Errors, dynamicPart?: string) => void;
+export type throwError = (
+  error: Errors,
+  dynamicPart?: string,
+  custom?: boolean
+) => void;

@@ -17,33 +17,33 @@ const isKeyword = (lexeme: string): Keywords | false => {
 };
 const tokeniser = (optionsArray: string): Lexeme[] => {
   let index = 0;
-  const lexemes: Lexeme[] = [];
+  const tokens: Lexeme[] = [];
   while (index < optionsArray.length) {
     const lexeme = optionsArray[index];
     switch (lexeme) {
       case "[":
-        lexemes.push({
+        tokens.push({
           type: "Punctuator",
           value: "[",
         });
         index++;
         break;
       case "]":
-        lexemes.push({
+        tokens.push({
           type: "Punctuator",
           value: "]",
         });
         index++;
         break;
       case ",":
-        lexemes.push({
+        tokens.push({
           type: "Punctuator",
           value: ",",
         });
         index++;
         break;
       case ":":
-        lexemes.push({
+        tokens.push({
           type: "Punctuator",
           value: ":",
         });
@@ -58,12 +58,12 @@ const tokeniser = (optionsArray: string): Lexeme[] => {
           }
           const returnVal = isKeyword(word);
           if (returnVal) {
-            lexemes.push({
+            tokens.push({
               type: "Keyword",
               value: returnVal,
             });
           } else {
-            lexemes.push({
+            tokens.push({
               type: "Literal",
               value: word,
             });
@@ -75,12 +75,65 @@ const tokeniser = (optionsArray: string): Lexeme[] => {
         }
     }
   }
-  return lexemes;
+  return tokens;
 };
-const generateAST = (tokens: Lexeme[]) => {};
-//The body 0f the module
+const generateAST = (tokens: Lexeme[]): Object => {
+  const ast = {};
+  const walkArray = (tokens: Lexeme[]) => {
+    const currentToken: Lexeme = tokens[0];
+    if (currentToken.value !== "[") {
+      throwError(Errors.IllegalToken, currentToken.value);
+    }
+    let start = 1;
+    while (start < tokens.length - 1) {
+      const value: string = tokens[start]?.value || "";
+      if (start % 2 !== 0) {
+        //analyze the pair
+        const colonPlaceHolder = tokens[++start]?.value || "";
+        if (colonPlaceHolder !== ":") {
+          throwError(Errors.MissingToken, ":");
+        }
+        const valuePlaceHolder = tokens[++start]?.value || "";
+        if (!valuePlaceHolder) {
+          throwError(Errors.SyntaxError, "A value is required after colon");
+        }
+        const isValue = isKeyword(valuePlaceHolder);
+        const isKey = isKeyword(value);
+        if (isKey) {
+          if (!isValue) {
+            ast[isKey] = valuePlaceHolder;
+          } else {
+            throwError(
+              Errors.SyntaxError,
+              `The keyword \`${value}\` cannot be used as a value.`,
+              true
+            );
+          }
+        } else {
+          throwError(
+            Errors.SyntaxError,
+            `The \`${value}\` is expected to be a keyword.`,
+            true
+          );
+        }
+      } else {
+        if (value !== ",") {
+          throwError(Errors.MissingToken, ",");
+        }
+      }
+      start++;
+    }
+    if (tokens[tokens.length - 1].value !== "]") {
+      throwError(Errors.MissingToken, "]");
+    }
+  };
+  walkArray(tokens);
+  return ast;
+};
+
+// Piece knitting everything together
 export default function (optionsArray: string) {
-  const lexemes: Lexeme[] = tokeniser(optionsArray);
-  generateAST(lexemes);
-  console.log(JSON.stringify(lexemes, null, 2));
+  const tokens: Lexeme[] = tokeniser(optionsArray);
+  const ast = generateAST(tokens);
+  console.log(JSON.stringify(ast, null, 2));
 }
