@@ -25,9 +25,6 @@ const throwsError: throwError = function (
           );
         case Errors.MissingToken:
           throw new Error(`${Errors.MissingToken} \`${dynamicPart}\``);
-        default:
-          console.log("Error not found");
-          break;
       }
     } else {
       throw new Error(`${error}`);
@@ -35,7 +32,5 @@ const throwsError: throwError = function (
   } else {
     throw new Error(`${error} ${dynamicPart}`);
   }
-  console.log(error);
 };
-
 export default throwsError;

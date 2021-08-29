@@ -29,7 +29,6 @@ export default function (code: string): AST {
       const spacesIndex = spacesTrail.indexOf(indentSpaceNumber);
       const indices: number[] = getSlashIndices(routeStreak);
       routeStreak = routeStreak.slice(0, indices[spacesIndex]) + value;
-      //routeStreak.replace("/*", "/").replace(/\/\//g, "/")
       routeStrings.push(routeStreak);
       spacesTrail.splice(spacesIndex);
       predictedNextSpace = indentSpaceNumber;

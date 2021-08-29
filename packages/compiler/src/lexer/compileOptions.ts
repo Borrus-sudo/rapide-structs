@@ -145,6 +145,5 @@ const generateAST = (tokens: Lexeme[]): Options => {
 export default function (optionsArray: string): Options {
   const tokens: Lexeme[] = tokeniser(optionsArray);
   const ast: Options = generateAST(tokens);
-  console.log(JSON.stringify(ast, null, 2));
   return ast;
 }

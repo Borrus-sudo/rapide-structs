@@ -69,7 +69,7 @@ export default class implements AST {
         type: "Route",
         value: "/" + motherName,
         isFlat: true,
-        ...motherOptions
+        ...motherOptions,
       });
       for (let i = 1; i < fragments.length; i++) {
         const res = this.extract(fragments[i]);
@@ -81,7 +81,7 @@ export default class implements AST {
             type: "Route",
             value: "/" + childName,
             isFlat: true,
-            ...childOptions
+            ...childOptions,
           },
           "/" + motherName
         );
