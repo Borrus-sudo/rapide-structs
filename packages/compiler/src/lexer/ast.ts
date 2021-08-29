@@ -1,4 +1,5 @@
-import type { AST, Node } from "../types";
+import type { AST, Node, Options } from "../types";
+import compileOptions from "./compileOptions";
 export default class implements AST {
   ast: Node[] = [];
   constructor() {}
@@ -49,21 +50,40 @@ export default class implements AST {
       });
     }
   }
+  extract(input: string): [string, string] {
+    const squareIndex = input.indexOf("[");
+    const name = input.slice(
+      0,
+      squareIndex === -1 ? input.length : squareIndex
+    );
+    const options = squareIndex !== -1 ? input.slice(squareIndex) : "";
+    return [name, options];
+  }
   compileStringRoutes(rawRoutes: string[]) {
     for (let route of rawRoutes) {
       const fragments = route.split("/").slice(1);
-      const mother = fragments[0];
+      const res = this.extract(fragments[0]);
+      const motherName = res[0];
+      const motherOptions: Options = compileOptions(res[1]);
       this.constructNode({
         type: "Route",
-        value: "/" + mother,
+        value: "/" + motherName,
         isFlat: true,
+        ...motherOptions
       });
       for (let i = 1; i < fragments.length; i++) {
-        const fragment = fragments[i];
-        const mother = fragments[i - 1];
+        const res = this.extract(fragments[i]);
+        const childName = res[0];
+        const childOptions: Options = compileOptions(res[1]);
+        const [motherName] = this.extract(fragments[i - 1]);
         this.constructNode(
-          { type: "Route", value: "/" + fragment, isFlat: true },
-          "/" + mother
+          {
+            type: "Route",
+            value: "/" + childName,
+            isFlat: true,
+            ...childOptions
+          },
+          "/" + motherName
         );
       }
     }

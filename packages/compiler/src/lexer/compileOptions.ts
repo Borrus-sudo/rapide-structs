@@ -1,7 +1,7 @@
 import throwError from "../error";
-import { Errors, Keywords, Lexeme } from "../types";
+import { Errors, Keywords, Lexeme, Options } from "../types";
 
-const isLetter: RegExp = /[a-zA-Z]/;
+const isLetter: RegExp = /[a-zA-Z0-9]/;
 const isWhiteSpace: RegExp = /\s/;
 const isKeyword = (lexeme: string): Keywords | false => {
   switch (lexeme.toLowerCase()) {
@@ -9,7 +9,7 @@ const isKeyword = (lexeme: string): Keywords | false => {
       return Keywords.alias;
     case "ignore":
       return Keywords.ignore;
-    case "middlware":
+    case "middleware":
       return Keywords.middleware;
     default:
       return false;
@@ -77,8 +77,12 @@ const tokeniser = (optionsArray: string): Lexeme[] => {
   }
   return tokens;
 };
-const generateAST = (tokens: Lexeme[]): Object => {
-  const ast = {};
+const generateAST = (tokens: Lexeme[]): Options => {
+  const ast: Options = {
+    middlewares: [],
+    alias: [],
+    ignore: false,
+  };
   const walkArray = (tokens: Lexeme[]) => {
     const currentToken: Lexeme = tokens[0];
     if (currentToken.value !== "[") {
@@ -101,18 +105,24 @@ const generateAST = (tokens: Lexeme[]): Object => {
         const isKey = isKeyword(value);
         if (isKey) {
           if (!isValue) {
-            ast[isKey] = valuePlaceHolder;
+            if (isKey === "ignore") {
+              ast["ignore"] = Boolean(valuePlaceHolder);
+            } else if (isKey === "middleware") {
+              ast["middlewares"].push(valuePlaceHolder);
+            } else {
+              ast["alias"].push(valuePlaceHolder);
+            }
           } else {
             throwError(
               Errors.SyntaxError,
-              `The keyword \`${value}\` cannot be used as a value.`,
+              `The keyword \`${valuePlaceHolder}\` cannot be used as a value.`,
               true
             );
           }
         } else {
           throwError(
             Errors.SyntaxError,
-            `The \`${value}\` is expected to be a keyword.`,
+            `The token \`${value}\` is expected to be a keyword.`,
             true
           );
         }
@@ -127,13 +137,14 @@ const generateAST = (tokens: Lexeme[]): Object => {
       throwError(Errors.MissingToken, "]");
     }
   };
-  walkArray(tokens);
+  if (tokens.length > 0) walkArray(tokens);
   return ast;
 };
 
 // Piece knitting everything together
-export default function (optionsArray: string) {
+export default function (optionsArray: string): Options {
   const tokens: Lexeme[] = tokeniser(optionsArray);
-  const ast = generateAST(tokens);
+  const ast: Options = generateAST(tokens);
   console.log(JSON.stringify(ast, null, 2));
+  return ast;
 }

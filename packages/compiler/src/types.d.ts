@@ -3,18 +3,15 @@ export const enum Keywords {
   ignore = "ignore",
   middleware = "middleware",
 }
-export type Node =
-  | {
-      type: "Route";
-      isFlat: Boolean;
-      value: string;
-      children?: Node[];
-      middlewares?: Node[];
-    }
-  | {
-      type: "Middleware";
-      value: string;
-    };
+export type Node = {
+  type: "Route";
+  value: string;
+  isFlat: Boolean;
+  children?: Node[];
+  ignore: Boolean;
+  alias: string[];
+  middlewares?: string[];
+};
 export type Lexeme =
   | {
       type: "Punctuator";
@@ -28,6 +25,11 @@ export type Lexeme =
       type: "Keyword";
       value: Keywords;
     };
+export type Options = {
+  alias: string[];
+  middlewares: string[];
+  ignore: Boolean;
+};
 export interface AST {
   ast: Node[];
   constructNode: (node: Node, parent?: string) => void;

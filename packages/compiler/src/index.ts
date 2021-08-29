@@ -1,7 +1,7 @@
 import { existsSync, PathLike, readFileSync } from "fs";
 import Codegen from "./codegen";
 import throwError from "./error";
-import Lexer from "./lexer/tokeniser";
+import Tokeniser from "./lexer/tokeniser";
 import { AST, Errors } from "./types";
 
 export default function (codePath: PathLike) {
@@ -10,6 +10,6 @@ export default function (codePath: PathLike) {
     return;
   }
   const code: string = readFileSync(codePath, { encoding: "utf-8" }).trim();
-  const ast: AST = Lexer(code);
+  const ast: AST = Tokeniser(code);
   Codegen(ast);
 }
