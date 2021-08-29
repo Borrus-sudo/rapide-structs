@@ -1,7 +1,7 @@
 import throwError from "../error";
 import { Errors, Keywords, Lexeme, Options } from "../types";
 
-const isLetter: RegExp = /[a-zA-Z0-9]/;
+const isLetter: RegExp = /[a-zA-Z0-9]|\_|\-/;
 const isWhiteSpace: RegExp = /\s/;
 const isKeyword = (lexeme: string): Keywords | false => {
   switch (lexeme.toLowerCase()) {
