@@ -5,13 +5,15 @@ A tiny minimalistic express project generator which quickens the process of boil
 ```
 /*
  /api
-    /v1[ignore:true] 
+    /v1[ignore:true,middleware:crap] 
       /cards[alias:playToo,middleware:card,middleware:card2]
       /fetchInfo 
       /countDown 
     /v2[ignore:true]
-      /lodash 
+      /lodash[verb:post] 
       /vuejs
       /reactjs
       /play       
+/login
+     /playThis[alias:taylorswift,middleware:rate-limit]       
 ```
