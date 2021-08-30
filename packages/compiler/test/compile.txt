@@ -5,7 +5,7 @@
       /fetchInfo 
       /countDown 
     /v2[ignore:true]
-      /lodash 
+      /lodash[verb:post] 
       /vuejs
       /reactjs
       /play       

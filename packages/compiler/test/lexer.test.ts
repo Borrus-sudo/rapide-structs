@@ -27,6 +27,7 @@ describe("it tests the lexer and a few errors", () => {
           isFlat: false,
           middlewares: [],
           alias: [],
+          verb: "get",
           ignore: false,
           children: [
             {
@@ -35,6 +36,7 @@ describe("it tests the lexer and a few errors", () => {
               isFlat: false,
               middlewares: [],
               alias: [],
+              verb: "get",
               ignore: false,
               children: [
                 {
@@ -43,6 +45,7 @@ describe("it tests the lexer and a few errors", () => {
                   isFlat: false,
                   middlewares: ["crap"],
                   alias: [],
+                  verb: "get",
                   ignore: true,
                   children: [
                     {
@@ -51,6 +54,7 @@ describe("it tests the lexer and a few errors", () => {
                       isFlat: true,
                       middlewares: ["card", "card2"],
                       alias: ["playToo"],
+                      verb: "get",
                       ignore: false,
                     },
                     {
@@ -59,6 +63,7 @@ describe("it tests the lexer and a few errors", () => {
                       isFlat: true,
                       middlewares: [],
                       alias: [],
+                      verb: "get",
                       ignore: false,
                     },
                     {
@@ -67,6 +72,7 @@ describe("it tests the lexer and a few errors", () => {
                       isFlat: true,
                       middlewares: [],
                       alias: [],
+                      verb: "get",
                       ignore: false,
                     },
                   ],
@@ -77,6 +83,7 @@ describe("it tests the lexer and a few errors", () => {
                   isFlat: false,
                   middlewares: [],
                   alias: [],
+                  verb: "get",
                   ignore: true,
                   children: [
                     {
@@ -85,6 +92,7 @@ describe("it tests the lexer and a few errors", () => {
                       isFlat: true,
                       middlewares: [],
                       alias: [],
+                      verb: "post",
                       ignore: false,
                     },
                     {
@@ -93,6 +101,7 @@ describe("it tests the lexer and a few errors", () => {
                       isFlat: true,
                       middlewares: [],
                       alias: [],
+                      verb: "get",
                       ignore: false,
                     },
                     {
@@ -101,6 +110,7 @@ describe("it tests the lexer and a few errors", () => {
                       isFlat: true,
                       middlewares: [],
                       alias: [],
+                      verb: "get",
                       ignore: false,
                     },
                     {
@@ -109,6 +119,7 @@ describe("it tests the lexer and a few errors", () => {
                       isFlat: true,
                       middlewares: [],
                       alias: [],
+                      verb: "get",
                       ignore: false,
                     },
                   ],
@@ -123,6 +134,7 @@ describe("it tests the lexer and a few errors", () => {
           isFlat: false,
           middlewares: [],
           alias: [],
+          verb: "get",
           ignore: false,
           children: [
             {
@@ -131,6 +143,7 @@ describe("it tests the lexer and a few errors", () => {
               isFlat: true,
               middlewares: ["rate-limit"],
               alias: ["taylorswift"],
+              verb: "get",
               ignore: false,
             },
           ],

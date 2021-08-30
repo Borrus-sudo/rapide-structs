@@ -1,5 +1,5 @@
 import throwError from "../error";
-import { Errors, Keywords, Lexeme, Options } from "../types";
+import { Errors, Keywords, Lexeme, Options, HttpVerb } from "../types";
 
 const matchLetter: RegExp = /([a-zA-Z0-9]|\_|\-)+/;
 const matchWhiteSpace: RegExp = /\s+/;
@@ -11,9 +11,14 @@ const isKeyword = (lexeme: string): Keywords | false => {
       return Keywords.ignore;
     case "middleware":
       return Keywords.middleware;
+    case "verb":
+      return Keywords.verb;
     default:
       return false;
   }
+};
+const isVerb = (verb: string): verb is HttpVerb => {
+  return ["get", "put", "post", "delete"].indexOf(verb) !== -1 ? true : false;
 };
 const tokeniser = (optionsArray: string): Lexeme[] => {
   let index = 0;
@@ -80,6 +85,7 @@ const generateAST = (tokens: Lexeme[]): Options => {
     middlewares: [],
     alias: [],
     ignore: false,
+    verb: "get",
   };
   const walkArray = (tokens: Lexeme[]) => {
     const currentToken: Lexeme = tokens[0];
@@ -107,6 +113,12 @@ const generateAST = (tokens: Lexeme[]): Options => {
               ast["ignore"] = Boolean(valuePlaceHolder);
             } else if (isKey === "middleware") {
               ast["middlewares"].push(valuePlaceHolder);
+            } else if (isKey === "verb") {
+              if (isVerb(valuePlaceHolder)) {
+                ast["verb"] = valuePlaceHolder;
+              } else {
+                throwError(Errors.IllegalToken, valuePlaceHolder);
+              }
             } else {
               ast["alias"].push(valuePlaceHolder);
             }

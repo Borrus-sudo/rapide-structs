@@ -1,8 +1,10 @@
 import type { PathLike } from "fs";
+export type HttpVerb = "get" | "put" | "post" | "delete";
 export const enum Keywords {
   alias = "alias",
   ignore = "ignore",
   middleware = "middleware",
+  verb = "verb",
 }
 export type Node = {
   type: "Route";
@@ -11,6 +13,7 @@ export type Node = {
   children?: Node[];
   ignore: Boolean;
   alias: string[];
+  verb: HttpVerb;
   middlewares?: string[];
 };
 export type Lexeme =
@@ -30,6 +33,7 @@ export type Options = {
   alias: string[];
   middlewares: string[];
   ignore: Boolean;
+  verb: HttpVerb;
 };
 export interface AST {
   ast: Node[];
