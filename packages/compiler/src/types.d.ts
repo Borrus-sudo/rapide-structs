@@ -1,4 +1,4 @@
-import { PathLike } from "fs";
+import type { PathLike } from "fs";
 export const enum Keywords {
   alias = "alias",
   ignore = "ignore",
@@ -50,4 +50,8 @@ export type throwsErrorType = (
   dynamicPart?: string,
   custom?: boolean
 ) => void;
-export type CodegenType = (ast: AST, basePath: PathLike, options: Object) => void;
+export type CodegenType = (
+  ast: AST,
+  basePath: PathLike,
+  options: Object
+) => void;

@@ -1,5 +1,5 @@
-import type { AST, Node, CodegenType } from "../types";
-import { PathLike } from "fs";
+import type { PathLike } from "fs";
+import type { AST, CodegenType, Node } from "../types";
 
 const Codegen: CodegenType = (
   ast: AST,
