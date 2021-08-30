@@ -1,11 +1,13 @@
 /*
  /api
-    /v1[ignore] 
-      /cards[alias:playToo,mark:[graph,mark],ignore]
+    /v1[ignore:true,middleware:crap] 
+      /cards[alias:playToo,middleware:card,middleware:card2]
       /fetchInfo 
       /countDown 
-    /v2[ignore]
+    /v2[ignore:true]
       /lodash 
       /vuejs
       /reactjs
       /play       
+/login
+     /playThis[alias:taylorswift,middleware:rate-limit]
