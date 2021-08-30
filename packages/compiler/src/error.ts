@@ -1,5 +1,5 @@
-import { Errors, throwError } from "./types";
-const throwsError: throwError = function (
+import { Errors, throwsErrorType } from "./types";
+const throwsError: throwsErrorType = function (
   error: Errors,
   dynamicPart?: string,
   custom?: boolean

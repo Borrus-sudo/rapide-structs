@@ -1,3 +1,4 @@
+import { PathLike } from "fs";
 export const enum Keywords {
   alias = "alias",
   ignore = "ignore",
@@ -44,8 +45,9 @@ export const enum Errors {
   MissingToken = "SyntaxError: Missing token",
   SyntaxError = "SyntaxError:",
 }
-export type throwError = (
+export type throwsErrorType = (
   error: Errors,
   dynamicPart?: string,
   custom?: boolean
 ) => void;
+export type CodegenType = (ast: AST, basePath: PathLike, options: Object) => void;

@@ -12,5 +12,5 @@ export default function (codePath: PathLike) {
   }
   const code: string = readFileSync(codePath, { encoding: "utf-8" }).trim();
   const ast: AST = Tokeniser(code);
-  Codegen(ast,resolve(process.cwd(),"./example"));
+  Codegen(ast, resolve(process.cwd(), "./example"), {});
 }
