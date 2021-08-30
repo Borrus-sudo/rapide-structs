@@ -1,8 +1,8 @@
 import throwError from "../error";
 import { Errors, Keywords, Lexeme, Options } from "../types";
 
-const isLetter: RegExp = /[a-zA-Z0-9]|\_|\-/;
-const isWhiteSpace: RegExp = /\s/;
+const matchLetter: RegExp = /([a-zA-Z0-9]|\_|\-)+/;
+const matchWhiteSpace: RegExp = /\s+/;
 const isKeyword = (lexeme: string): Keywords | false => {
   switch (lexeme.toLowerCase()) {
     case "alias":
@@ -50,13 +50,11 @@ const tokeniser = (optionsArray: string): Lexeme[] => {
         index++;
         break;
       default:
-        if (isLetter.test(lexeme)) {
-          let word: string = "";
-          word += lexeme;
-          while (isLetter.test(optionsArray[++index])) {
-            word += optionsArray[index];
-          }
+        if (matchLetter.test(lexeme)) {
+          const matched = matchLetter.exec(optionsArray.slice(index));
+          let word: string = matched[0];
           const returnVal = isKeyword(word);
+          index += word.length;
           if (returnVal) {
             tokens.push({
               type: "Keyword",
@@ -68,8 +66,8 @@ const tokeniser = (optionsArray: string): Lexeme[] => {
               value: word,
             });
           }
-        } else if (isWhiteSpace.test(lexeme)) {
-          index++;
+        } else if (matchWhiteSpace.test(lexeme)) {
+          index += matchWhiteSpace.exec(optionsArray.slice(index))[0].length;
         } else {
           throwError(Errors.UnidentifiedToken, lexeme);
         }
