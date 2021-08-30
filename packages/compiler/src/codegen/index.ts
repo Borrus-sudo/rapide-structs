@@ -1,5 +1,4 @@
-import { AST } from "../types";
+import type { AST, Node } from "../types";
+import { writeFileSync, readFileSync, PathLike } from "fs";
 
-export default function (ast: AST) {
-  console.log(JSON.stringify(ast, null, 2));
-}
+export default function (ast: AST, basePath: PathLike) {}
