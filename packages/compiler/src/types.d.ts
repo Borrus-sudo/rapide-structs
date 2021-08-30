@@ -35,11 +35,22 @@ export type Options = {
   ignore: Boolean;
   verb: HttpVerb;
 };
+export type Defaults = {
+  expressVarName: string;
+  expressRouteName: string;
+  fileStructureName: string;
+  notNeededNewFiles: string[];
+};
 export interface AST {
   ast: Node[];
   constructNode: (node: Node, parent?: string) => void;
   traverse: (visitor: Function) => void;
   compileStringRoutes: (rawRoutes: string[]) => void;
+}
+export interface MagicFile {
+  defaults: Defaults;
+  createRoute: () => void;
+  createFile: () => void;
 }
 export const enum Errors {
   ModuleNotFound = "ModuleNotFound: Error module not found",
