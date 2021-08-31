@@ -11,6 +11,13 @@
         "actionTest": "jest --verbose --coverage"
     },
     "devDependencies": {
-        "rollup": "^2.56.3"
+        "@rollup/plugin-beep": "^0.2.0",
+        "@rollup/plugin-commonjs": "^20.0.0",
+        "@rollup/plugin-node-resolve": "^13.0.4",
+        "@rollup/plugin-strip": "^2.1.0",
+        "rollup": "^2.56.3",
+        "rollup-plugin-filesize": "^9.1.1",
+        "rollup-plugin-terser": "^7.0.2",
+        "rollup-plugin-ts": "^1.4.0"
     }
 }
