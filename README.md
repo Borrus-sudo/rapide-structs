@@ -1,5 +1,5 @@
 # rapid-structs
-A tiny minimalistic express project generator which quickens the process of boiler plate generation by introducing an easy to use syntax!
+A tiny minimalistic express project generator that quickens the process of boilerplate generation by introducing an easy-to-use syntax!
 
 # Example of the syntax
 ```
