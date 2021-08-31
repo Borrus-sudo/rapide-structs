@@ -9,5 +9,8 @@
         "compile": "tsc",
         "test": "jest --watchAll --verbose --coverage",
         "actionTest": "jest --verbose --coverage"
+    },
+    "devDependencies": {
+        "rollup": "^2.56.3"
     }
 }
