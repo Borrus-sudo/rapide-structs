@@ -1,5 +1,4 @@
 import { existsSync, PathLike, readFileSync } from "fs";
-import { resolve } from "path";
 import Codegen from "./codegen";
 import throwError from "./error";
 import Tokeniser from "./lexer/tokeniser";
