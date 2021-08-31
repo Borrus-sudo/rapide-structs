@@ -5,13 +5,13 @@ import { readFileSync } from "fs";
 describe("it tests the lexer and a few errors", () => {
   it("should throw ModuleNotFoundError ", () => {
     try {
-      Compile("./invalidpath");
+      //@ts-ignore
+      Compile("./invalidpath", {});
     } catch (error) {
       expect(error.message).toStrictEqual(
         `ModuleNotFound: Error module not found. Please check the input path ./invalidpath again`
       );
     }
-    Compile(join(process.cwd(), "./test/compile.txt"));
   });
   it("should match the snapshot", () => {
     const ast = Tokeniser(
