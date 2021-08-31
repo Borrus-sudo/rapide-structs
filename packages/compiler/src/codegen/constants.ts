@@ -74,40 +74,35 @@ typings/
 
 # Serverless directories
 .serverless`,
-  "package.json": `{
-    "private": true,
-    "name": "awesome-stack",
-    "version": "0.0.1",
-    "description": "Github ReadME stats for your favourite web dev stack!",
-    "main": "index.js",
-    "scripts": {
-        "start": "node src/index.js",
-        "dev": "nodemon src/index.js",
-        "lint": "eslint --fix src",
-        "test": "nyc --reporter=text mocha --exit"
+  "package.json": {
+    private: true,
+    version: "0.0.1",
+    main: "index.js",
+    scripts: {
+      start: "node src/index.js",
+      dev: "nodemon src/index.js",
+      lint: "eslint --fix src",
+      test: "nyc --reporter=text mocha --exit",
     },
-    "keywords": [],
-    "author": "Borrus-sudo",
-    "license": "MIT",
-    "dependencies": {
-        "cors": "^2.8.5",
-        "dotenv": "^10.0.0",
-        "express": "^4.17.1",
-        "helmet": "^4.6.0",
-        "morgan": "^1.10.0",
-        "node-fetch": "^2.6.1"
+    license: "MIT",
+    dependencies: {
+      cors: "^2.8.5",
+      dotenv: "^10.0.0",
+      express: "^4.17.1",
+      helmet: "^4.6.0",
+      morgan: "^1.10.0",
+      "node-fetch": "^2.6.1",
     },
-    "devDependencies": {
-        "eslint": "^7.28.0",
-        "eslint-config-airbnb-base": "^14.2.1",
-        "eslint-plugin-import": "^2.24.0",
-        "mocha": "^9.0.0",
-        "nodemon": "^2.0.7",
-        "nyc": "^15.1.0",
-        "supertest": "^6.1.5"
-    }
-}
-`,
+    devDependencies: {
+      eslint: "^7.28.0",
+      "eslint-config-airbnb-base": "^14.2.1",
+      "eslint-plugin-import": "^2.24.0",
+      mocha: "^9.0.0",
+      nodemon: "^2.0.7",
+      nyc: "^15.1.0",
+      supertest: "^6.1.5",
+    },
+  },
   LICENSE: `MIT License Copyright (c) ${currYear} YOURNAME.
 
 Permission is hereby granted, free

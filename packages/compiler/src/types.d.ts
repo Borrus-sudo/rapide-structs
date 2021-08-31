@@ -36,10 +36,14 @@ export type Options = {
   verb: HttpVerb;
 };
 export type Defaults = {
+  projectName: string;
+  versionName: string;
+  description: string;
   expressVarName: string;
   expressRouteDirectoryName: string;
   rootDirectoryName: string;
   notNeededNewFiles: string[];
+  packageMiddlewares: string[];
   basePath: PathLike;
 };
 export interface AST {
@@ -50,7 +54,16 @@ export interface AST {
 }
 export interface MagicFile {
   defaults: Defaults;
-  createRoute: () => void;
+  rootPath: PathLike;
+  routePath: PathLike;
+  basePath: PathLike;
+  packageJSON: Object;
+  configPackageJSON: () => string;
+  createRoute: (node: Node) => {
+    middlewares: string;
+    route: string;
+    aliasRoutes: string;
+  };
   createConfigFile: (fileName: string, contents?: string) => void;
   createRootFile: (fileName: string, contents?: string) => void;
   createFile: (fileName: string, contents?: string) => void;
