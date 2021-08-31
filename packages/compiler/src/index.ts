@@ -3,7 +3,7 @@ import { resolve } from "path";
 import Codegen from "./codegen";
 import throwError from "./error";
 import Tokeniser from "./lexer/tokeniser";
-import { AST, Errors } from "./types";
+import { AST, Defaults, Errors } from "./types";
 
 export default function (codePath: PathLike) {
   if (!existsSync(codePath)) {
@@ -12,5 +12,9 @@ export default function (codePath: PathLike) {
   }
   const code: string = readFileSync(codePath, { encoding: "utf-8" }).trim();
   const ast: AST = Tokeniser(code);
-  Codegen(ast, resolve(process.cwd(), "./example"), {});
+  Codegen(ast, {
+    basePath: resolve(process.cwd(), "./example"),
+  } as Defaults);
 }
+
+export { Tokeniser, Codegen };

@@ -14,7 +14,7 @@ export type Node = {
   ignore: Boolean;
   alias: string[];
   verb: HttpVerb;
-  middlewares?: string[];
+  middlewares: string[];
 };
 export type Lexeme =
   | {
@@ -37,9 +37,10 @@ export type Options = {
 };
 export type Defaults = {
   expressVarName: string;
-  expressRouteName: string;
-  fileStructureName: string;
+  expressRouteDirectoryName: string;
+  rootDirectoryName: string;
   notNeededNewFiles: string[];
+  basePath: PathLike;
 };
 export interface AST {
   ast: Node[];
@@ -50,7 +51,9 @@ export interface AST {
 export interface MagicFile {
   defaults: Defaults;
   createRoute: () => void;
-  createFile: () => void;
+  createConfigFile: (fileName: string, contents?: string) => void;
+  createRootFile: (fileName: string, contents?: string) => void;
+  createFile: (fileName: string, contents?: string) => void;
 }
 export const enum Errors {
   ModuleNotFound = "ModuleNotFound: Error module not found",
@@ -65,8 +68,4 @@ export type throwsErrorType = (
   dynamicPart?: string,
   custom?: boolean
 ) => void;
-export type CodegenType = (
-  ast: AST,
-  basePath: PathLike,
-  options: Object
-) => void;
+export type CodegenType = (ast: AST, options: Object) => void;
