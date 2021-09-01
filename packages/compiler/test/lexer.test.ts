@@ -19,7 +19,18 @@ describe("it tests the lexer and a few errors", () => {
         encoding: "utf-8",
       })
     );
-    console.log(frontMatter);
+    
+    expect(frontMatter).toEqual({
+      name: "sampleProject",
+      version: "",
+      description: "",
+      expressVarName: "express",
+      expressRouteDirectoryName: "api",
+      rootDirectoryName: "src",
+      ignoreNewFiles: [],
+      pkgMiddlewares: ["rate-limit", "rate-limit-moar"],
+      basePath: "E:/jdev/rapide-structs/example",
+    });
     expect(ast).toEqual({
       ast: [
         {

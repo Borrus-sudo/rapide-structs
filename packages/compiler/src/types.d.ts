@@ -72,7 +72,7 @@ export const enum Errors {
   ModuleNotFound = "ModuleNotFound: Error module not found",
   IndentationError = "IndentError: Indentation error",
   UnidentifiedToken = "SyntaxError:",
-  IllegalToken = "SyntaxError: Illgal token",
+  IllegalToken = "SyntaxError: Illgal token.",
   MissingToken = "SyntaxError: Missing token",
   SyntaxError = "SyntaxError:",
 }

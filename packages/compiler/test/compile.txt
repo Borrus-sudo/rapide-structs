@@ -1,7 +1,9 @@
 ---
 name: sampleProject
-rootPath: E:/jdev/rapide-structs/example
-pkgMiddlewares: [rate-limit]
+basePath: E:/jdev/rapide-structs/example
+pkgMiddlewares: 
+      - rate-limit
+      - rate-limit-moar 
 ---
 /*
  /api

@@ -1,14 +1,14 @@
 import throwError from "../error";
 import { AST, Defaults, Errors } from "../types";
 import ASTree from "./ast";
-import frontMatter from "front-matter";
+import * as frontMatter from "front-matter";
 export default function (code: string): { ast: AST; frontMatter: Defaults } {
   //Parsing the frontMatter
   const getFrontMatter = (input: string): Defaults => {
     const defaults: Defaults = {
-      name: "string",
-      version: "string",
-      description: "string",
+      name: "",
+      version: "",
+      description: "",
       expressVarName: "express",
       expressRouteDirectoryName: "api",
       rootDirectoryName: "src",
@@ -17,20 +17,24 @@ export default function (code: string): { ast: AST; frontMatter: Defaults } {
       basePath: "",
     };
     //@ts-ignore
-    const attributes = frontMatter(input);
-    code = attributes.body;
-    Object.entries(attributes).forEach(([key, value]) => {
-      if (defaults[key]) {
-        defaults[key] = value;
+    const res = frontMatter<Object>(input);
+    code = res.body;
+    Object.entries(res.attributes).forEach(([key, value]) => {
+      if (defaults.hasOwnProperty(key)) {
+        if (Array.isArray(defaults[key])) {
+          if (Array.isArray(value)) defaults[key].push(...value);
+          else defaults[key].push(value);
+        } else {
+          defaults[key] = value;
+        }
       } else {
-        throwError(Errors.IllegalToken, attributes[key]);
+        throwError(Errors.IllegalToken, key);
       }
     });
 
     return defaults;
   };
   const metaStuff: Defaults = getFrontMatter(code);
-  console.log(code);
 
   // Parsing the body
   const lines: string[] = code.split("\n");
