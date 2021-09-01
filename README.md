@@ -3,6 +3,13 @@ A tiny minimalistic express project generator that quickens the process of boile
 
 # Example of the syntax
 ```
+---
+name: sampleProject
+basePath: E:/jdev/rapide-structs/example
+pkgMiddlewares: 
+      - rate-limit
+      - rate-limit-moar 
+---
 /*
  /api
     /v1[ignore:true,middleware:crap] 
