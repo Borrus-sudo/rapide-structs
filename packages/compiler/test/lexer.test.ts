@@ -1,5 +1,5 @@
 import Compile from "../src/index";
-import Tokeniser from "../src/lexer/tokeniser";
+import Parser from "../src/lexer/parser";
 import { join } from "path";
 import { readFileSync } from "fs";
 describe("it tests the lexer and a few errors", () => {
@@ -14,11 +14,12 @@ describe("it tests the lexer and a few errors", () => {
     }
   });
   it("should match the snapshot", () => {
-    const ast = Tokeniser(
+    const { ast, frontMatter } = Parser(
       readFileSync(join(process.cwd(), "./test/compile.txt"), {
         encoding: "utf-8",
       })
     );
+    console.log(frontMatter);
     expect(ast).toEqual({
       ast: [
         {

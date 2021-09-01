@@ -1,3 +1,8 @@
+---
+name: sampleProject
+rootPath: E:/jdev/rapide-structs/example
+pkgMiddlewares: [rate-limit]
+---
 /*
  /api
     /v1[ignore:true,middleware:crap] 

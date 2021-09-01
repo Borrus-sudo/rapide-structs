@@ -3,40 +3,43 @@ import { AST, Defaults, Errors } from "../types";
 import ASTree from "./ast";
 import frontMatter from "front-matter";
 export default function (code: string): { ast: AST; frontMatter: Defaults } {
-  const lines: string[] = code.split("\n");
-  const spacesTrail: number[] = [];
-  const routeStrings: string[] = [];
-  const frontMatterRegex = /---(.*?)---/;
-  const getSlashIndices = (str: string): number[] => {
-    const indices: number[] = [];
-    [...str].forEach((elem, index) => (elem === "/" ? indices.push(index) : 0));
-    return indices;
-  };
+  //Parsing the frontMatter
   const getFrontMatter = (input: string): Defaults => {
-    const isPresent = frontMatterRegex.test(input);
     const defaults: Defaults = {
-      projectName: "string",
-      versionName: "string",
+      name: "string",
+      version: "string",
       description: "string",
       expressVarName: "express",
       expressRouteDirectoryName: "api",
       rootDirectoryName: "src",
-      notNeededNewFiles: [],
-      packageMiddlewares: [],
+      ignoreNewFiles: [],
+      pkgMiddlewares: [],
       basePath: "",
     };
-    if (isPresent) {
-      //  frontMatter.
-      const attributes = frontMatter(input);
-      Object.entries(attributes).forEach(([key, value]) => {
-        if (defaults[key]) {
-          defaults[key] = value;
-        } else {
-          throwError(Errors.IllegalToken, attributes[key]);
-        }
-      });
-    }
+    //@ts-ignore
+    const attributes = frontMatter(input);
+    code = attributes.body;
+    Object.entries(attributes).forEach(([key, value]) => {
+      if (defaults[key]) {
+        defaults[key] = value;
+      } else {
+        throwError(Errors.IllegalToken, attributes[key]);
+      }
+    });
+
     return defaults;
+  };
+  const metaStuff: Defaults = getFrontMatter(code);
+  console.log(code);
+
+  // Parsing the body
+  const lines: string[] = code.split("\n");
+  const spacesTrail: number[] = [];
+  const routeStrings: string[] = [];
+  const getSlashIndices = (str: string): number[] => {
+    const indices: number[] = [];
+    [...str].forEach((elem, index) => (elem === "/" ? indices.push(index) : 0));
+    return indices;
   };
   let predictedNextSpace: number = 0;
   let lineNumber: number = 1;
@@ -52,7 +55,6 @@ export default function (code: string): { ast: AST; frontMatter: Defaults } {
       }
       routeStrings.push(routeStreak);
     } else if (spacesTrail.includes(indentSpaceNumber)) {
-      //streak broken;
       const spacesIndex = spacesTrail.indexOf(indentSpaceNumber);
       const indices: number[] = getSlashIndices(routeStreak);
       routeStreak = routeStreak.slice(0, indices[spacesIndex]) + value;
@@ -76,5 +78,7 @@ export default function (code: string): { ast: AST; frontMatter: Defaults } {
   }
   const ast: AST = new ASTree();
   ast.compileStringRoutes(routeStrings);
-  return { ast, frontMatter: getFrontMatter(code) };
+
+  //Returning the parsed stuff
+  return { ast, frontMatter: metaStuff };
 }

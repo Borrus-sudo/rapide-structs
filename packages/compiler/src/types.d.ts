@@ -36,14 +36,14 @@ export type Options = {
   verb: HttpVerb;
 };
 export type Defaults = {
-  projectName: string;
-  versionName: string;
+  name: string;
+  version: string;
   description: string;
   expressVarName: string;
   expressRouteDirectoryName: string;
   rootDirectoryName: string;
-  notNeededNewFiles: string[];
-  packageMiddlewares: string[];
+  ignoreNewFiles: string[];
+  pkgMiddlewares: string[];
   basePath: PathLike;
 };
 export interface AST {
