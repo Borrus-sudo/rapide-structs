@@ -1,15 +1,42 @@
 import throwError from "../error";
-import { AST, Errors } from "../types";
+import { AST, Defaults, Errors } from "../types";
 import ASTree from "./ast";
-
-export default function (code: string): AST {
+import frontMatter from "front-matter";
+export default function (code: string): { ast: AST; frontMatter: Defaults } {
   const lines: string[] = code.split("\n");
   const spacesTrail: number[] = [];
   const routeStrings: string[] = [];
+  const frontMatterRegex = /---(.*?)---/;
   const getSlashIndices = (str: string): number[] => {
     const indices: number[] = [];
     [...str].forEach((elem, index) => (elem === "/" ? indices.push(index) : 0));
     return indices;
+  };
+  const getFrontMatter = (input: string): Defaults => {
+    const isPresent = frontMatterRegex.test(input);
+    const defaults: Defaults = {
+      projectName: "string",
+      versionName: "string",
+      description: "string",
+      expressVarName: "express",
+      expressRouteDirectoryName: "api",
+      rootDirectoryName: "src",
+      notNeededNewFiles: [],
+      packageMiddlewares: [],
+      basePath: "",
+    };
+    if (isPresent) {
+      //  frontMatter.
+      const attributes = frontMatter(input);
+      Object.entries(attributes).forEach(([key, value]) => {
+        if (defaults[key]) {
+          defaults[key] = value;
+        } else {
+          throwError(Errors.IllegalToken, attributes[key]);
+        }
+      });
+    }
+    return defaults;
   };
   let predictedNextSpace: number = 0;
   let lineNumber: number = 1;
@@ -49,5 +76,5 @@ export default function (code: string): AST {
   }
   const ast: AST = new ASTree();
   ast.compileStringRoutes(routeStrings);
-  return ast;
+  return { ast, frontMatter: getFrontMatter(code) };
 }

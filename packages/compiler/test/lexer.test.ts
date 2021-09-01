@@ -6,7 +6,7 @@ describe("it tests the lexer and a few errors", () => {
   it("should throw ModuleNotFoundError ", () => {
     try {
       //@ts-ignore
-      Compile("./invalidpath", {});
+      Compile("./invalidpath");
     } catch (error) {
       expect(error.message).toStrictEqual(
         `ModuleNotFound: Error module not found. Please check the input path ./invalidpath again`

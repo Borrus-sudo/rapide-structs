@@ -4,7 +4,7 @@ import resolve from "@rollup/plugin-node-resolve";
 import strip from "@rollup/plugin-strip";
 import filesize from "rollup-plugin-filesize";
 import { terser } from "rollup-plugin-terser";
-import ts from "rollup-plugin-ts";
+import typescript from "rollup-plugin-ts";
 
 const build = () => [
     entry("./src/index.ts", [
@@ -20,7 +20,7 @@ const entry = (input, output) => ({
     plugins: [
         commonjs(),
         resolve({ extensions: [".ts"] }),
-        ts(),
+        typescript(),
         strip({
             functions: ["console.log"],
             include: "**/*.(ts)",
@@ -36,15 +36,17 @@ export const out = (file, { format, minify }) => ({
     format,
     name: "Million",
     strict: true,
-    plugins: minify ? [
-        terser(),
-        filesize({
-            showBrotliSize: true,
-            showMinifiedSize: false,
-            showBeforeSizes: "release",
-            showGzippedSize: false,
-        }),
-    ] : [],
+    plugins: minify ?
+        [
+            terser(),
+            filesize({
+                showBrotliSize: true,
+                showMinifiedSize: false,
+                showBeforeSizes: "release",
+                showGzippedSize: false,
+            }),
+        ] :
+        [],
 });
 
 export default build();

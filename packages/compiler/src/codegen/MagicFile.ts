@@ -33,9 +33,9 @@ export default class implements MagicFile {
       route: ``,
       aliasRoutes: ``,
     };
-    const defineMiddleware = (middlewares: string[]) => {};
-    const defineAliasRoutes = (alias: string[]) => {};
-    const defineRoute = (node: Node) => {
+    const defineMiddlewareCode = (middlewares: string[]) => {};
+    const defineAliasRoutesCode = (alias: string[]) => {};
+    const defineRouteCode = (node: Node) => {
       const {
         value: routeName,
         alias,
@@ -45,10 +45,10 @@ export default class implements MagicFile {
         isFlat,
         verb,
       } = node;
-      defineMiddleware(middlewares);
-      defineAliasRoutes(alias);
+      defineMiddlewareCode(middlewares);
+      defineAliasRoutesCode(alias);
     };
-    defineRoute(node);
+    defineRouteCode(node);
     return returnCode;
   }
 

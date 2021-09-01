@@ -2,16 +2,15 @@ import { existsSync, PathLike, readFileSync } from "fs";
 import Codegen from "./codegen";
 import throwError from "./error";
 import Tokeniser from "./lexer/tokeniser";
-import { AST, Defaults, Errors } from "./types";
+import { Errors } from "./types";
 
-export default function (codePath: PathLike, options: Defaults) {
+export default function (codePath: PathLike) {
   if (!existsSync(codePath)) {
     throwError(Errors.ModuleNotFound, codePath as string);
     return;
   }
   const code: string = readFileSync(codePath, { encoding: "utf-8" }).trim();
-  const ast: AST = Tokeniser(code);
-  Codegen(ast, options);
+  const { ast, frontMatter } = Tokeniser(code);
+  Codegen(ast, frontMatter);
 }
 
-export { Tokeniser, Codegen };
