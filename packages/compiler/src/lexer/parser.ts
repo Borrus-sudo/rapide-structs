@@ -1,7 +1,7 @@
+import * as frontMatter from "front-matter";
 import throwError from "../error";
 import { AST, Defaults, Errors } from "../types";
 import ASTree from "./ast";
-import * as frontMatter from "front-matter";
 export default function (code: string): { ast: AST; frontMatter: Defaults } {
   //Parsing the frontMatter
   const getFrontMatter = (input: string): Defaults => {
