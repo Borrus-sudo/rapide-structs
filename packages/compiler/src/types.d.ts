@@ -13,6 +13,7 @@ export type Node = {
   children?: Node[];
   ignore: Boolean;
   alias: string[];
+  uniques: string[];
   verb: HttpVerb;
   middlewares: string[];
 };
@@ -39,6 +40,7 @@ export type Defaults = {
   name: string;
   version: string;
   description: string;
+  author: string;
   expressVarName: string;
   expressRouteDirectoryName: string;
   rootDirectoryName: string;

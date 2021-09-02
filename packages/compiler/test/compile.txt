@@ -16,5 +16,5 @@ pkgMiddlewares:
       /vuejs
       /reactjs
       /play       
-/login
-     /playThis[alias:taylorswift,middleware:rate-limit]
+/login/:id
+         /playThis[alias:taylorswift,middleware:rate-limit]

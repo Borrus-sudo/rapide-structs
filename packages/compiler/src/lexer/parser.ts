@@ -9,6 +9,7 @@ export default function (code: string): { ast: AST; frontMatter: Defaults } {
       name: "",
       version: "",
       description: "",
+      author: "",
       expressVarName: "express",
       expressRouteDirectoryName: "api",
       rootDirectoryName: "src",
@@ -50,7 +51,10 @@ export default function (code: string): { ast: AST; frontMatter: Defaults } {
   let routeStreak: string = "";
   for (let line of lines) {
     const indentSpaceNumber: number = line.trimRight().search(/\S/);
-    const value: string = line.trim();
+    let times = 1;
+    const value: string = line
+      .trim()
+      .replace(/(\/)/g, (lexeme: string) => (times++ > 1 ? "$" : lexeme));
     if (indentSpaceNumber === predictedNextSpace) {
       if (!value.startsWith("/")) {
         routeStreak += "/" + value;

@@ -33,7 +33,37 @@ export default class implements MagicFile {
       route: ``,
       aliasRoutes: ``,
     };
-    const defineMiddlewareCode = (middlewares: string[]) => {};
+    const defineMiddlewareCode = (
+      middlewares: string[],
+      isFlat: Boolean,
+      value: string
+    ) => {
+      const sortedMiddlewares = {
+        inlineMiddlewares: [], //inline in the route
+        useMiddlewares: [], // with app.use
+        defineMiddlewares: [], // define the middlewares
+      };
+      if (isFlat) {
+        //inline all middlewares
+        for (let middleware of middlewares) {
+          if (this.defaults.pkgMiddlewares.includes(middleware)) {
+            sortedMiddlewares.inlineMiddlewares.push(middleware);
+          } else {
+            sortedMiddlewares.inlineMiddlewares.push(middleware);
+            sortedMiddlewares.defineMiddlewares.push(middleware);
+          }
+        }
+      } else {
+        for (let middleware of middlewares) {
+          if (this.defaults.pkgMiddlewares.includes(middleware)) {
+            sortedMiddlewares.useMiddlewares.push(middleware);
+          } else {
+            sortedMiddlewares.useMiddlewares.push(middleware);
+            sortedMiddlewares.defineMiddlewares.push(middleware);
+          }
+        }
+      }
+    };
     const defineAliasRoutesCode = (alias: string[]) => {};
     const defineRouteCode = (node: Node) => {
       const {
@@ -42,11 +72,15 @@ export default class implements MagicFile {
         ignore,
         middlewares,
         children,
+        uniques,
         isFlat,
         verb,
       } = node;
-      defineMiddlewareCode(middlewares);
-      defineAliasRoutesCode(alias);
+      if (!ignore) {
+        defineMiddlewareCode(middlewares, isFlat, routeName);
+        const code = `${this.defaults.expressVarName}.${verb}("${routeName}",,(res,req)=>{})`;
+        defineAliasRoutesCode(alias);
+      }
     };
     defineRouteCode(node);
     return returnCode;

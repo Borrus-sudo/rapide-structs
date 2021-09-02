@@ -19,11 +19,11 @@ describe("it tests the lexer and a few errors", () => {
         encoding: "utf-8",
       })
     );
-    
     expect(frontMatter).toEqual({
       name: "sampleProject",
       version: "",
       description: "",
+      author: "",
       expressVarName: "express",
       expressRouteDirectoryName: "api",
       rootDirectoryName: "src",
@@ -35,6 +35,7 @@ describe("it tests the lexer and a few errors", () => {
       ast: [
         {
           type: "Route",
+          uniques: [],
           value: "/*",
           isFlat: false,
           middlewares: [],
@@ -44,6 +45,7 @@ describe("it tests the lexer and a few errors", () => {
           children: [
             {
               type: "Route",
+              uniques: [],
               value: "/api",
               isFlat: false,
               middlewares: [],
@@ -53,6 +55,7 @@ describe("it tests the lexer and a few errors", () => {
               children: [
                 {
                   type: "Route",
+                  uniques: [],
                   value: "/v1",
                   isFlat: false,
                   middlewares: ["crap"],
@@ -62,6 +65,7 @@ describe("it tests the lexer and a few errors", () => {
                   children: [
                     {
                       type: "Route",
+                      uniques: [],
                       value: "/cards",
                       isFlat: true,
                       middlewares: ["card", "card2"],
@@ -71,6 +75,7 @@ describe("it tests the lexer and a few errors", () => {
                     },
                     {
                       type: "Route",
+                      uniques: [],
                       value: "/fetchInfo",
                       isFlat: true,
                       middlewares: [],
@@ -80,6 +85,7 @@ describe("it tests the lexer and a few errors", () => {
                     },
                     {
                       type: "Route",
+                      uniques: [],
                       value: "/countDown",
                       isFlat: true,
                       middlewares: [],
@@ -91,6 +97,7 @@ describe("it tests the lexer and a few errors", () => {
                 },
                 {
                   type: "Route",
+                  uniques: [],
                   value: "/v2",
                   isFlat: false,
                   middlewares: [],
@@ -100,6 +107,7 @@ describe("it tests the lexer and a few errors", () => {
                   children: [
                     {
                       type: "Route",
+                      uniques: [],
                       value: "/lodash",
                       isFlat: true,
                       middlewares: [],
@@ -109,6 +117,7 @@ describe("it tests the lexer and a few errors", () => {
                     },
                     {
                       type: "Route",
+                      uniques: [],
                       value: "/vuejs",
                       isFlat: true,
                       middlewares: [],
@@ -118,6 +127,7 @@ describe("it tests the lexer and a few errors", () => {
                     },
                     {
                       type: "Route",
+                      uniques: [],
                       value: "/reactjs",
                       isFlat: true,
                       middlewares: [],
@@ -127,6 +137,7 @@ describe("it tests the lexer and a few errors", () => {
                     },
                     {
                       type: "Route",
+                      uniques: [],
                       value: "/play",
                       isFlat: true,
                       middlewares: [],
@@ -142,6 +153,7 @@ describe("it tests the lexer and a few errors", () => {
         },
         {
           type: "Route",
+          uniques: [":id"],
           value: "/login",
           isFlat: false,
           middlewares: [],
@@ -151,6 +163,7 @@ describe("it tests the lexer and a few errors", () => {
           children: [
             {
               type: "Route",
+              uniques: [],
               value: "/playThis",
               isFlat: true,
               middlewares: ["rate-limit"],

@@ -59,28 +59,39 @@ export default class implements AST {
     const options = squareIndex !== -1 ? input.slice(squareIndex) : "";
     return [name, options];
   }
+  identifyUniques(input: string): [string, string[]] {
+    if (!input.includes("$")) {
+      return [input, []];
+    }
+    let uniques = input.split("$").slice(1);
+    return [input.slice(0, input.indexOf("$")), uniques];
+  }
   compileStringRoutes(rawRoutes: string[]) {
     for (let route of rawRoutes) {
       const fragments = route.split("/").slice(1);
       const res = this.extract(fragments[0]);
-      const motherName = res[0];
+      const [motherName, uniques] = this.identifyUniques(res[0]);
       const motherOptions: Options = compileOptions(res[1]);
       this.constructNode({
         type: "Route",
         value: "/" + motherName,
         isFlat: true,
+        uniques,
         ...motherOptions,
       });
       for (let i = 1; i < fragments.length; i++) {
         const res = this.extract(fragments[i]);
-        const childName = res[0];
+        const [childName, uniques] = this.identifyUniques(res[0]);
         const childOptions: Options = compileOptions(res[1]);
-        const [motherName] = this.extract(fragments[i - 1]);
+        const [motherName] = this.identifyUniques(
+          this.extract(fragments[i - 1])[0]
+        );
         this.constructNode(
           {
             type: "Route",
             value: "/" + childName,
             isFlat: true,
+            uniques,
             ...childOptions,
           },
           "/" + motherName
