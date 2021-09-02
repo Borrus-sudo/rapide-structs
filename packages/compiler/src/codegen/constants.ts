@@ -74,7 +74,7 @@ typings/
 
 # Serverless directories
 .serverless`,
-  "package.json": {
+  "package.json": `{
     private: true,
     version: "1.0.0",
     main: "index.js",
@@ -99,7 +99,7 @@ typings/
       nyc: "latest",
       supertest: "latest",
     },
-  },
+  }`,
   LICENSE: `MIT License Copyright (c) ${currYear} YOURNAME.
 
 Permission is hereby granted, free
