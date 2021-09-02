@@ -53,6 +53,8 @@ export interface AST {
   constructNode: (node: Node, parent?: string) => void;
   traverse: (visitor: Function) => void;
   compileStringRoutes: (rawRoutes: string[]) => void;
+  identifyUniques: (input: string) => [string, string[]];
+  extract: (input: string) => [string, string];
 }
 export interface MagicFile {
   defaults: Defaults;
