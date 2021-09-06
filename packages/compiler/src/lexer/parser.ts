@@ -1,6 +1,6 @@
 import * as frontMatter from "front-matter";
 import throwError from "../error";
-import { AST, Defaults, Errors } from "../types";
+import { AST, Defaults, Errors, Node } from "../types";
 import ASTree from "./ast";
 export default function (code: string): { ast: AST; frontMatter: Defaults } {
   //Parsing the frontMatter
@@ -38,9 +38,11 @@ export default function (code: string): { ast: AST; frontMatter: Defaults } {
   const metaStuff: Defaults = getFrontMatter(code);
 
   // Parsing the body
+  const ast: AST = new ASTree();
   const lines: string[] = code.split("\n");
   const spacesTrail: number[] = [];
-  const routeStrings: string[] = [];
+  const baseNodes: Node[] = [];
+  const toPushNodes: Node[][] = [];
   const getSlashIndices = (str: string): number[] => {
     const indices: number[] = [];
     [...str].forEach((elem, index) => (elem === "/" ? indices.push(index) : 0));
@@ -61,12 +63,28 @@ export default function (code: string): { ast: AST; frontMatter: Defaults } {
       } else {
         routeStreak += value;
       }
-      routeStrings.push(routeStreak);
+      const fragments = routeStreak.split("/").slice(1);
+      if (fragments.length === 1) {
+        const currNode = ast.constructNode(fragments[0]);
+        baseNodes.push(currNode);
+        toPushNodes.push(currNode.children);
+      } else {
+        const currNode = ast.constructNode(fragments[fragments.length - 1]);
+        toPushNodes[toPushNodes.length - 1].push(currNode);
+        toPushNodes.push(currNode.children);
+      }
     } else if (spacesTrail.includes(indentSpaceNumber)) {
       const spacesIndex = spacesTrail.indexOf(indentSpaceNumber);
       const indices: number[] = getSlashIndices(routeStreak);
       routeStreak = routeStreak.slice(0, indices[spacesIndex]) + value;
-      routeStrings.push(routeStreak);
+      const currNode = ast.constructNode(value);
+      toPushNodes.splice(spacesIndex);
+      if (toPushNodes.length > 0) {
+        toPushNodes[toPushNodes.length - 1].push(currNode);
+      } else {
+        baseNodes.push(currNode);
+      }
+      toPushNodes.push(currNode.children);
       spacesTrail.splice(spacesIndex);
       predictedNextSpace = indentSpaceNumber;
     } else {
@@ -84,9 +102,7 @@ export default function (code: string): { ast: AST; frontMatter: Defaults } {
         squareBracketIndex === -1 ? value.length : squareBracketIndex
       ).length - 1;
   }
-  const ast: AST = new ASTree();
-  ast.compileStringRoutes(routeStrings);
-
   //Returning the parsed stuff
+  ast.ast = baseNodes;
   return { ast, frontMatter: metaStuff };
 }

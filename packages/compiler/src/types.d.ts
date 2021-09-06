@@ -9,8 +9,7 @@ export const enum Keywords {
 export type Node = {
   type: "Route";
   value: string;
-  isFlat: Boolean;
-  children?: Node[];
+  children: Node[];
   ignore: Boolean;
   alias: string[];
   uniques: string[];
@@ -50,11 +49,10 @@ export type Defaults = {
 };
 export interface AST {
   ast: Node[];
-  constructNode: (node: Node, parent?: string) => void;
   traverse: (visitor: Function) => void;
-  compileStringRoutes: (rawRoutes: string[]) => void;
   identifyUniques: (input: string) => [string, string[]];
   extract: (input: string) => [string, string];
+  constructNode(routeName: string): Node;
 }
 export interface MagicFile {
   defaults: Defaults;

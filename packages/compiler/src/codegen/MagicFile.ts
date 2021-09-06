@@ -73,11 +73,14 @@ export default class implements MagicFile {
         middlewares,
         children,
         uniques,
-        isFlat,
         verb,
       } = node;
       if (!ignore) {
-        defineMiddlewareCode(middlewares, isFlat, routeName);
+        defineMiddlewareCode(
+          middlewares,
+          children.length > 0 ? true : false,
+          routeName
+        );
         const code = `${this.defaults.expressVarName}.${verb}("${routeName}",,(res,req)=>{})`;
         defineAliasRoutesCode(alias);
       }

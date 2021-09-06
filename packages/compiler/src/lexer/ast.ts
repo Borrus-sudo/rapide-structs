@@ -21,34 +21,17 @@ export default class implements AST {
       }
     }
   }
-  constructNode(child: Node, parent?: string) {
-    if (!parent) {
-      if (this.ast.filter((node) => node.value === child.value).length === 0) {
-        this.ast.push(child);
-      }
-    } else {
-      this.traverse((traversingNode: Node) => {
-        if (
-          traversingNode.value === parent &&
-          traversingNode.type === "Route"
-        ) {
-          if (traversingNode.isFlat) {
-            traversingNode.isFlat = false;
-            traversingNode.children = [child];
-          } else {
-            if (
-              traversingNode.children.filter(
-                (node) => child.value === node.value
-              ).length === 0
-            ) {
-              traversingNode.children.push(child);
-            }
-          }
-          return false;
-        }
-        return true;
-      });
-    }
+  constructNode(routeName: string): Node {
+    const [name, options] = this.extract(routeName);
+    const [nodeName, uniques] = this.identifyUniques(name);
+    const node: Node = {
+      type: "Route",
+      value: nodeName.startsWith("/") ? nodeName : "/" + nodeName,
+      children: [],
+      uniques,
+      ...compileOptions(options),
+    };
+    return node;
   }
   extract(input: string): [string, string] {
     const squareIndex = input.indexOf("[");
@@ -66,37 +49,5 @@ export default class implements AST {
     let uniques = input.split("$").slice(1);
     return [input.slice(0, input.indexOf("$")), uniques];
   }
-  compileStringRoutes(rawRoutes: string[]) {
-    for (let route of rawRoutes) {
-      const fragments = route.split("/").slice(1);
-      const res = this.extract(fragments[0]);
-      const [motherName, uniques] = this.identifyUniques(res[0]);
-      const motherOptions: Options = compileOptions(res[1]);
-      this.constructNode({
-        type: "Route",
-        value: "/" + motherName,
-        isFlat: true,
-        uniques,
-        ...motherOptions,
-      });
-      for (let i = 1; i < fragments.length; i++) {
-        const res = this.extract(fragments[i]);
-        const [childName, uniques] = this.identifyUniques(res[0]);
-        const childOptions: Options = compileOptions(res[1]);
-        const [motherName] = this.identifyUniques(
-          this.extract(fragments[i - 1])[0]
-        );
-        this.constructNode(
-          {
-            type: "Route",
-            value: "/" + childName,
-            isFlat: true,
-            uniques,
-            ...childOptions,
-          },
-          "/" + motherName
-        );
-      }
-    }
-  }
+  
 }
