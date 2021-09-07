@@ -1,4 +1,4 @@
-import type { AST, Node, Options } from "../types";
+import type { AST, Node } from "../types";
 import compileOptions from "./compileOptions";
 export default class implements AST {
   ast: Node[] = [];
@@ -49,5 +49,4 @@ export default class implements AST {
     let uniques = input.split("$").slice(1);
     return [input.slice(0, input.indexOf("$")), uniques];
   }
-  
 }
