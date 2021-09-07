@@ -13,7 +13,7 @@ export default class implements AST {
     loop: for (let node of traverseNodes) {
       const nextNode = visitor(node);
       if (nextNode) {
-        if (node.type === "Route" && node.children) {
+        if (node.children.length > 0) {
           this.traverse(visitor, node.children);
         }
       } else {
