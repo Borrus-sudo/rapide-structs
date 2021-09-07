@@ -69,7 +69,7 @@ export default function (code: string): { ast: AST; frontMatter: Defaults } {
         baseNodes.push(currNode);
         toPushNodes.push(currNode.children);
       } else {
-        const currNode = ast.constructNode(fragments.at(-1));
+        const currNode = ast.constructNode(fragments[fragments.length - 1]);
         toPushNodes[toPushNodes.length - 1].push(currNode);
         toPushNodes.push(currNode.children);
       }
@@ -80,7 +80,7 @@ export default function (code: string): { ast: AST; frontMatter: Defaults } {
       const currNode = ast.constructNode(value);
       toPushNodes.splice(spacesIndex);
       if (toPushNodes.length > 0) {
-        toPushNodes.at(-1).push(currNode);
+        toPushNodes[toPushNodes.length - 1].push(currNode);
       } else {
         baseNodes.push(currNode);
       }
